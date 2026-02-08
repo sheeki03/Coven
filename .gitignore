@@ -11,3 +11,4 @@ dist
 !README.md
 chamber-state.md
 bun.lock
+.playwright-mcp/
