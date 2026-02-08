@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import type { Suspect, RevealedClaimDetail } from '../types/index.js';
 import { useGame } from '../hooks/GameContext.js';
 import { useThemeStrict } from '../hooks/ThemeContext.js';
@@ -107,6 +107,14 @@ function SuspectCard({ suspect, onAccuse }: Props) {
   // so OathChips/TimelineStrip properly mask unknown claims
   const defaultRc: RevealedClaimDetail = { bells: [], route: false, anchor: false, object: false, sense: false, openingHeard: false };
   const rc: RevealedClaimDetail | undefined = isEnded ? undefined : (state.revealedClaims[suspect.id] ?? defaultRc);
+
+  // Location name lookup (slug → display name)
+  const locNames = useMemo(() => {
+    if (!state.world) return {};
+    const m: Record<string, string> = {};
+    for (const l of state.world.locations) m[l.id] = l.name;
+    return m;
+  }, [state.world]);
 
   // Player marks
   const isMarked = state.markedSuspects.includes(suspect.id);
@@ -338,6 +346,7 @@ function SuspectCard({ suspect, onAccuse }: Props) {
               hintUsed={state.hintUsed}
               revealedBells={revealedBells}
               openingHeard={openingHeard}
+              locationNames={locNames}
             />
           </div>
         )}
@@ -349,6 +358,7 @@ function SuspectCard({ suspect, onAccuse }: Props) {
               claim={suspect.claimVector}
               drawnCount={state.drawnCards.length}
               revealedClaims={rc}
+              locationNames={locNames}
             />
           </div>
         )}

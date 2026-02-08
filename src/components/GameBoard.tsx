@@ -25,7 +25,6 @@ import DemoMode, { TUTORIAL_SEED } from './DemoMode.js';
 import TutorialCallout from './TutorialCallout.js';
 import DailyObjectives from './DailyObjectives.js';
 import ScribeLog from './ScribeLog.js';
-import ImplicatedFilter from './ImplicatedFilter.js';
 import DebugOverlay from './DebugOverlay.js';
 import CaseNotes from './CaseNotes.js';
 import { InterrogationProvider } from '../hooks/useInterrogation.js';
@@ -133,8 +132,6 @@ export default function GameBoard() {
 
                   {/* Right column: Filter + Suspect Grid */}
                   <div className="space-y-4" id="suspect-grid">
-                    {/* Implicated filter — shows after rune draw */}
-                    <ImplicatedFilter />
                     <SuspicionFilter />
                     <SuspectGrid onAccuse={(id, name) => setPendingAccuse({ id, name })} />
                   </div>

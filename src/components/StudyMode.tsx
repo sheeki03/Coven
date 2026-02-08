@@ -13,6 +13,13 @@ export default function StudyMode() {
   const [open, setOpen] = useState(false);
   const recordedStudy = useRef(false);
 
+  const locNames = useMemo(() => {
+    if (!state.world) return {};
+    const m: Record<string, string> = {};
+    for (const l of state.world.locations) m[l.id] = l.name;
+    return m;
+  }, [state.world]);
+
   const handleToggle = () => {
     if (!open) {
       sessionStorage.setItem('coven:studyOpened', '1');
@@ -154,10 +161,11 @@ export default function StudyMode() {
                     segments={s.claimVector.segments}
                     evidence={delta?.evidence ?? []}
                     hintUsed={state.hintUsed}
+                    locationNames={locNames}
                   />
 
                   <div className="mt-1.5">
-                    <OathChips claim={s.claimVector} drawnCount={2} />
+                    <OathChips claim={s.claimVector} drawnCount={2} locationNames={locNames} />
                   </div>
 
                   {(delta?.evidence ?? []).map((e, i) => (

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import type { RevealedClaimDetail } from '../types/index.js';
 import { useGame } from '../hooks/GameContext.js';
 import { useThemeStrict } from '../hooks/ThemeContext.js';
@@ -13,6 +13,12 @@ function Pinboard() {
   const { state } = useGame();
   const { theme } = useThemeStrict();
   const { highlight, highlightDispatch } = useHighlight();
+  const locNames = useMemo(() => {
+    if (!state.world) return {};
+    const m: Record<string, string> = {};
+    for (const l of state.world.locations) m[l.id] = l.name;
+    return m;
+  }, [state.world]);
 
   const pinnedSuspects = highlight.pinnedSuspects
     .map(id => state.suspects.find(s => s.id === id))
@@ -70,11 +76,12 @@ function Pinboard() {
                 hintUsed={state.hintUsed}
                 revealedBells={revealedBells}
                 openingHeard={openingHeard}
+                locationNames={locNames}
               />
 
               {/* Chips */}
               <div className="mt-1.5">
-                <OathChips claim={suspect.claimVector} drawnCount={state.drawnCards.length} revealedClaims={rc} />
+                <OathChips claim={suspect.claimVector} drawnCount={state.drawnCards.length} revealedClaims={rc} locationNames={locNames} />
               </div>
             </div>
           );

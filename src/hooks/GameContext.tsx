@@ -110,7 +110,19 @@ function createGameReducer(mode: GameMode, templates: import('../themes/types.js
         const { puzzle, gameState } = loadPuzzleForToday(mode, core, templates);
         currentPuzzle = puzzle;
         // No recomputeStrikes — all suspects start with 0 strikes
-        return { ...gameState, phase: gameState.phase === 'loading' ? 'investigating' : gameState.phase };
+        // Auto-reveal opening defense for all suspects so locations are visible from the start
+        const autoRevealedClaims: Record<string, RevealedClaimDetail> = {};
+        for (const s of gameState.suspects) {
+          const existing = gameState.revealedClaims[s.id] ?? {
+            bells: [], route: false, anchor: false, object: false, sense: false, openingHeard: false,
+          };
+          autoRevealedClaims[s.id] = { ...existing, openingHeard: true };
+        }
+        return {
+          ...gameState,
+          phase: gameState.phase === 'loading' ? 'investigating' : gameState.phase,
+          revealedClaims: { ...gameState.revealedClaims, ...autoRevealedClaims },
+        };
       }
 
       case 'DRAW_CARD': {

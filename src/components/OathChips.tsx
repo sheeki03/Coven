@@ -8,6 +8,7 @@ interface Props {
   claim: ClaimVector;
   drawnCount: number;
   revealedClaims?: RevealedClaimDetail;
+  locationNames?: Record<string, string>;
 }
 
 const TYPE_COLORS: Record<string, string> = {
@@ -22,13 +23,14 @@ function isTimingRevealed(departBell: number, arriveBell: number, rc: RevealedCl
   return rc.route || (rc.bells.includes(departBell) && rc.bells.includes(arriveBell));
 }
 
-function OathChips({ claim, drawnCount, revealedClaims }: Props) {
+function OathChips({ claim, drawnCount, revealedClaims, locationNames }: Props) {
   const { theme } = useThemeStrict();
   const bellNames = theme.templates.bellNames;
   const vis = getVisibility(drawnCount);
   const chips: { key: string; label: string; type: string; secondary?: boolean }[] = [];
 
   const rc = revealedClaims; // undefined = show everything (ended / unmasked)
+  const loc = (id: string) => locationNames?.[id] ?? id;
 
   // Segment chips
   for (let i = 0; i < claim.segments.length; i++) {
@@ -45,18 +47,18 @@ function OathChips({ claim, drawnCount, revealedClaims }: Props) {
       const fromBell = formatBell(seg.departBell, bellNames);
       const toBell = formatBell(seg.arriveBell, bellNames);
       if (seg.from === seg.to) {
-        chips.push({ key: `seg-${i}`, label: `At ${seg.from} (${fromBell}–${toBell})`, type: 'segment' });
+        chips.push({ key: `seg-${i}`, label: `At ${loc(seg.from)} (${fromBell}–${toBell})`, type: 'segment' });
       } else {
-        chips.push({ key: `seg-${i}`, label: `${seg.from} \u2192 ${seg.to} (${fromBell}–${toBell})`, type: 'segment' });
+        chips.push({ key: `seg-${i}`, label: `${loc(seg.from)} \u2192 ${loc(seg.to)} (${fromBell}–${toBell})`, type: 'segment' });
       }
       continue;
     }
 
     // Tier 2: After opening, timing unknown — show locations, mask timing
     if (seg.from === seg.to) {
-      chips.push({ key: `seg-${i}`, label: `At ${seg.from} (?–?)`, type: 'segment-masked' });
+      chips.push({ key: `seg-${i}`, label: `At ${loc(seg.from)} (?–?)`, type: 'segment-masked' });
     } else {
-      chips.push({ key: `seg-${i}`, label: `${seg.from} \u2192 ${seg.to} (?–?)`, type: 'segment-masked' });
+      chips.push({ key: `seg-${i}`, label: `${loc(seg.from)} \u2192 ${loc(seg.to)} (?–?)`, type: 'segment-masked' });
     }
   }
 

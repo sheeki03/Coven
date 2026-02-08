@@ -11,6 +11,7 @@ interface Props {
   missedSegmentIndex?: number;
   revealedBells?: number[];   // undefined = show everything (ended)
   openingHeard?: boolean;     // undefined = show everything (ended)
+  locationNames?: Record<string, string>;
 }
 
 function isSegmentTimingRevealed(seg: Segment, revealedBells: number[] | undefined): boolean {
@@ -18,7 +19,7 @@ function isSegmentTimingRevealed(seg: Segment, revealedBells: number[] | undefin
   return revealedBells.includes(seg.departBell) && revealedBells.includes(seg.arriveBell);
 }
 
-function TimelineStrip({ segments, evidence = [], hintUsed, showMissed, missedSegmentIndex, revealedBells, openingHeard }: Props) {
+function TimelineStrip({ segments, evidence = [], hintUsed, showMissed, missedSegmentIndex, revealedBells, openingHeard, locationNames }: Props) {
   const { theme } = useThemeStrict();
   const bellLabels = theme.templates.bellLabelsShort;
 
@@ -113,7 +114,7 @@ function TimelineStrip({ segments, evidence = [], hintUsed, showMissed, missedSe
               {!timingKnown && hasOpening && (
                 <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
                   <span className="text-iron/35 text-[9px] font-body truncate px-0.5">
-                    {seg.from === seg.to ? seg.from : `${seg.from}\u2192${seg.to}`}
+                    {seg.from === seg.to ? (locationNames?.[seg.from] ?? seg.from) : `${locationNames?.[seg.from] ?? seg.from}\u2192${locationNames?.[seg.to] ?? seg.to}`}
                   </span>
                 </div>
               )}

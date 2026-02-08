@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import type { RevealedClaimDetail } from '../types/index.js';
 import { useGame } from '../hooks/GameContext.js';
 import { useThemeStrict } from '../hooks/ThemeContext.js';
@@ -12,6 +13,12 @@ export default function FinalDeliberation() {
   const { state, suspectsByStrikes } = useGame();
   const { theme } = useThemeStrict();
   const { highlight } = useHighlight();
+  const locNames = useMemo(() => {
+    if (!state.world) return {};
+    const m: Record<string, string> = {};
+    for (const l of state.world.locations) m[l.id] = l.name;
+    return m;
+  }, [state.world]);
 
   const isEnded = state.phase === 'ended';
 
@@ -62,10 +69,11 @@ export default function FinalDeliberation() {
                   hintUsed={state.hintUsed}
                   revealedBells={revealedBells}
                   openingHeard={openingHeard}
+                  locationNames={locNames}
                 />
 
                 <div className="mt-2">
-                  <OathChips claim={s.claimVector} drawnCount={state.drawnCards.length} revealedClaims={rc} />
+                  <OathChips claim={s.claimVector} drawnCount={state.drawnCards.length} revealedClaims={rc} locationNames={locNames} />
                 </div>
 
                 {isEnded && s.evidence.length > 0 && (
