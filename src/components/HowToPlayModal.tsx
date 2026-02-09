@@ -58,17 +58,53 @@ export default function HowToPlayModal({ onClose }: Props) {
 
         <CelticBorder className="opacity-30" />
 
-        {/* How to Win — Steps */}
+        {/* Core Loop */}
         <Section title="How to Win">
           <div className="space-y-4">
-            <Step num="1" title="Read the Alibis"
-              desc={`Each suspect card shows their claimed movements across 6 ${c.timePeriodLabel}. Tap any card to expand their full written testimony.`} />
-            <Step num="2" title={`${c.drawVerb} 2 ${c.drawNounPlural}`}
-              desc={`Choose 2 of 4 available ${c.drawNounPlural}. Each reveals true world facts \u2014 things that actually happened. These facts may contradict suspect alibis.`} />
-            <Step num="3" title="Spot Contradictions"
-              desc="When a fact conflicts with a suspect's alibi, that suspect receives a strike. Strikes accumulate \u2014 the more strikes, the more likely they're the liar." />
-            <Step num="4" title={`Name the ${c.liarLabel}`}
-              desc={`Once you've drawn 2 ${c.drawNounPlural}, the Accuse button appears. Name the suspect with the most strikes. The ${c.liarLabel} will always have contradictions.`} />
+            <Step num="1" title="Study the Suspects"
+              desc={`Each suspect card shows their claimed locations. Morning timings and horn claims are visible upfront \u2014 but afternoon timings, carried items, and scent details are hidden until you interrogate.`} />
+            <Step num="2" title={`${c.drawVerb} ${c.drawNounPlural}`}
+              desc={`Choose 2 of 4 available ${c.drawNounPlural}. Each reveals true world facts \u2014 travel times, relic locations, horn signals, scent reports. These are ground truth.`} />
+            <Step num="3" title="Interrogate for Details"
+              desc={`Use the ${c.interrogateLabel} button to question suspects. Each probe reveals hidden claim details \u2014 exact timings, relics, scents. Suspects may protest innocence or blame others.`} />
+            <Step num="4" title="Cross-Reference & Deduce"
+              desc={`Compare what the world facts say (from ${c.drawNounPlural}) with what suspects claim (from their cards + interrogation). Look for contradictions \u2014 the liar's story won't add up.`} />
+            <Step num="5" title={`Name the ${c.liarLabel}`}
+              desc={`Once you've drawn 2 ${c.drawNounPlural}, the Accuse button appears. Contradictions are computed from the clues YOU uncovered. The ${c.liarLabel} always has contradictions if you dig deep enough.`} />
+          </div>
+        </Section>
+
+        <CelticBorder className="opacity-30" />
+
+        {/* Two Sources */}
+        <Section title="Two Sources of Truth">
+          <p className="font-body text-parchment/75 text-sm mb-4">
+            Neither source alone is enough. You need <span className="text-gold/90 font-bold">both</span> to find the liar.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="p-4 rounded-lg bg-surface/40 border border-gold/10">
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-6 h-6 rounded bg-gold/10 flex items-center justify-center text-gold/70 text-sm">&#x2726;</div>
+                <p className={`${theme.visuals.headingFontClass} text-parchment/85 text-xs font-bold tracking-wider`}>{c.drawNounPlural.charAt(0).toUpperCase() + c.drawNounPlural.slice(1)} (World Facts)</p>
+              </div>
+              <p className="font-body text-iron/60 text-xs leading-relaxed">
+                Reveal what <span className="text-gold/80 font-bold">actually happened</span> &mdash; travel times between locations, where relics were seen, horn signals, environmental conditions.
+              </p>
+            </div>
+            <div className="p-4 rounded-lg bg-surface/40 border border-gold/10">
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-6 h-6 rounded bg-gold/10 flex items-center justify-center text-gold/70 text-sm">&#x1F50D;</div>
+                <p className={`${theme.visuals.headingFontClass} text-parchment/85 text-xs font-bold tracking-wider`}>Interrogation (Suspect Claims)</p>
+              </div>
+              <p className="font-body text-iron/60 text-xs leading-relaxed">
+                Reveal what each suspect <span className="text-gold/80 font-bold">claims happened</span> &mdash; exact bell timings, travel routes, objects carried, scents they noticed.
+              </p>
+            </div>
+          </div>
+          <div className="mt-3 p-3 rounded-lg bg-gold/5 border border-gold/8">
+            <p className="font-body text-gold/70 text-xs leading-relaxed text-center italic">
+              A contradiction only counts if you revealed <span className="font-bold">both</span> the world fact <span className="font-bold">and</span> the suspect&apos;s claim about it.
+            </p>
           </div>
         </Section>
 
@@ -95,30 +131,72 @@ export default function HowToPlayModal({ onClose }: Props) {
             <DetailBlock title="Portrait, Name & Role" icon="&#x1F464;">
               Each suspect has a unique portrait, name, and role. These are for flavor &mdash; guilt is determined only by contradictions.
             </DetailBlock>
-            <DetailBlock title="Strike Dots" icon="&#x25CF;">
-              <div className="flex items-center gap-4 mt-1.5">
-                <div className="flex items-center gap-1.5">
-                  <div className="w-3 h-3 rounded-full bg-gold/70" />
-                  <span className="font-body text-gold/80 text-sm">1 strike = Suspect</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <div className="w-3 h-3 rounded-full bg-crimson shadow-[0_0_6px_rgba(139,26,26,0.5)]" />
-                  <div className="w-3 h-3 rounded-full bg-crimson shadow-[0_0_6px_rgba(139,26,26,0.5)]" />
-                  <span className="font-body text-crimson-bright text-sm">2+ = Condemned</span>
-                </div>
-              </div>
-            </DetailBlock>
             <DetailBlock title="Timeline Bar" icon="&#x23F1;">
-              The colored bar spans 6 {c.timePeriodLabel}. Solid segments mean the suspect claims to have stayed at a location. Striped segments mean travel. A red &#x2715; marks a contradicted segment.
+              <p>The colored bar spans 6 {c.timePeriodLabel}. <span className="text-gold/80 font-bold">Morning segments</span> (first 3 {c.timePeriodLabel}) show real positioning. <span className="text-iron/80 font-bold">Afternoon segments</span> appear as uniform blocks with &ldquo;?&ndash;?&rdquo; until you probe for exact timings.</p>
+              <p className="mt-1 text-iron/50 text-xs italic">Solid bars = staying at a location. Striped bars = traveling between locations.</p>
             </DetailBlock>
-            <DetailBlock title="Claims" icon="&#x1F4DC;">
-              Below the timeline, chips show the suspect&apos;s specific claims: locations visited, items carried, and senses reported.
+            <DetailBlock title="Claim Chips" icon="&#x1F4DC;">
+              <p>Below the timeline, chips show the suspect&apos;s claims. Some are <span className="text-gold/80 font-bold">visible immediately</span>:</p>
+              <ul className="mt-1 space-y-0.5 text-xs">
+                <li className="flex items-center gap-2"><span className="text-gold/50">&#x2713;</span> <span>Locations visited (always shown)</span></li>
+                <li className="flex items-center gap-2"><span className="text-gold/50">&#x2713;</span> <span>Morning bell timings (first 3)</span></li>
+                <li className="flex items-center gap-2"><span className="text-gold/50">&#x2713;</span> <span>Horn claim (when &amp; where they heard it)</span></li>
+              </ul>
+              <p className="mt-1.5">Others <span className="text-iron/80 font-bold">require interrogation</span> to reveal:</p>
+              <ul className="mt-1 space-y-0.5 text-xs">
+                <li className="flex items-center gap-2"><span className="text-iron/40">?</span> <span>Afternoon bell timings (bell probe / route probe)</span></li>
+                <li className="flex items-center gap-2"><span className="text-iron/40">?</span> <span>Carried relic (object probe)</span></li>
+                <li className="flex items-center gap-2"><span className="text-iron/40">?</span> <span>Scent noticed (sense probe)</span></li>
+              </ul>
             </DetailBlock>
-            <DetailBlock title="Evidence Chips" icon="&#x26A0;">
-              When a contradiction is found, red evidence chips appear showing the type.
+            <DetailBlock title="Known Meter" icon="&#x1F4CA;">
+              Below the interrogate button, a compact meter tracks what you&apos;ve uncovered for each suspect: bell timings (dots), route detail, horn, relic, and scent status. Use it to plan your next probe.
+            </DetailBlock>
+            <DetailBlock title="Mark Suspect (&#x2606;)" icon="&#x2B50;">
+              Tap the star icon to mark suspects you find suspicious. Marked suspects get a gold ring &mdash; purely for your own tracking.
             </DetailBlock>
             <DetailBlock title="Full Testimony" icon="&#x1F4D6;">
               Tap any suspect card to expand their full written alibi narrative.
+            </DetailBlock>
+          </div>
+        </Section>
+
+        <CelticBorder className="opacity-30" />
+
+        {/* Interrogation */}
+        <Section title={c.interrogateLabel}>
+          <p className="font-body text-parchment/75 text-sm mb-3">
+            Tap <span className="text-gold/80 font-bold">&ldquo;{c.interrogateLabel}&rdquo;</span> on any suspect card to open their interrogation chamber. <span className="text-gold/70 font-bold">Available from the start</span> &mdash; no draws required.
+          </p>
+          <div className="space-y-3">
+            <DetailBlock title="Opening Defense (Free)" icon="&#x1F50A;">
+              Every suspect will give a free opening defense. This doesn&apos;t cost a token and doesn&apos;t reveal new claims, but may contain useful narrative clues.
+            </DetailBlock>
+            <DetailBlock title="Council Favors" icon="&#x1F534;">
+              <p>You have <span className="text-gold font-bold">6 Council Favors</span> per game. Each follow-up probe costs 1 Favor and &minus;25 points.</p>
+              <div className="flex items-center gap-1.5 mt-1.5">
+                <div className="flex gap-1">
+                  {[0,1,2,3,4,5].map(i => (
+                    <div key={i} className={`w-2.5 h-2.5 rounded-full ${i < 4 ? 'bg-gold/60' : 'bg-iron/20'}`} />
+                  ))}
+                </div>
+                <span className="font-body text-iron/40 text-xs">4 of 6 remaining</span>
+              </div>
+            </DetailBlock>
+            <DetailBlock title="Probe Types &mdash; Each Reveals Something" icon="&#x1F50D;">
+              <div className="mt-1 space-y-1.5">
+                <ProbeRow label="Bell Probe" desc="Reveals exact timing for a specific hour" />
+                <ProbeRow label="Route Probe" desc="Reveals full travel timeline at once" />
+                <ProbeRow label="Horn Probe" desc="Already visible \u2014 confirms horn claim details" />
+                <ProbeRow label="Object Probe" desc="Reveals what relic the suspect carried" />
+                <ProbeRow label="Sense Probe" desc="Reveals what scent/condition they noticed" />
+              </div>
+            </DetailBlock>
+            <DetailBlock title="Blame &amp; Deflection" icon="&#x1F5E3;">
+              Under pressure, suspects may protest their innocence or point fingers at others. <span className="text-iron/50 italic">Blame is never reliable evidence &mdash; both liars and innocents do it.</span>
+            </DetailBlock>
+            <DetailBlock title="Voice &amp; Text" icon="&#x1F3A4;">
+              Answers are spoken aloud via AI voice and displayed as text. Tap the skip button to jump past audio. Toggle voice off in settings.
             </DetailBlock>
           </div>
         </Section>
@@ -149,30 +227,10 @@ export default function HowToPlayModal({ onClose }: Props) {
 
         <CelticBorder className="opacity-30" />
 
-        {/* Interrogation */}
-        <Section title={c.interrogateLabel}>
-          <p className="font-body text-parchment/75 text-sm mb-3">
-            After drawing, you can question any suspect by tapping the <span className="text-gold/80 font-bold">&ldquo;{c.interrogateLabel}&rdquo;</span> button on their card.
-          </p>
-          <div className="space-y-3">
-            <DetailBlock title="Opening Defense (Free)" icon="&#x1F50A;">
-              Every suspect will give a free opening defense when prompted.
-            </DetailBlock>
-            <DetailBlock title="Follow-up Tokens" icon="&#x1F534;">
-              <p>You have <span className="text-crimson-bright font-bold">3 tokens</span> per game. Each follow-up costs 1 token and -50 points.</p>
-            </DetailBlock>
-            <DetailBlock title="Question Types" icon="&#x2753;">
-              Choose from 8 question types covering different aspects of the case.
-            </DetailBlock>
-          </div>
-        </Section>
-
-        <CelticBorder className="opacity-30" />
-
         {/* Hint System */}
         <Section title={c.hintLabel}>
           <p className="font-body text-parchment/75 text-sm mb-2">
-            If you&apos;re stuck, use the <span className="text-gold/80 font-bold">{c.hintLabel}</span> button. This reveals one guaranteed true fact. It costs <span className="text-gold/80 font-bold">-160 points</span>.
+            If you&apos;re stuck, use the <span className="text-gold/80 font-bold">{c.hintLabel}</span> button. This reveals one guaranteed true fact. It costs <span className="text-gold/80 font-bold">&minus;160 points</span>.
           </p>
         </Section>
 
@@ -186,22 +244,22 @@ export default function HowToPlayModal({ onClose }: Props) {
               <span className="font-body text-gold font-bold text-sm text-right">1000</span>
 
               <span className="font-body text-parchment/70 text-sm">Each {c.drawNounPlural.slice(0, -1)} (first 2)</span>
-              <span className="font-body text-gold/80 text-sm text-right">-80 each</span>
+              <span className="font-body text-gold/80 text-sm text-right">&minus;80 each</span>
 
               <span className="font-body text-parchment/70 text-sm">3rd (optional)</span>
-              <span className="font-body text-ember text-sm text-right">-160</span>
+              <span className="font-body text-ember text-sm text-right">&minus;160</span>
 
               <span className="font-body text-parchment/70 text-sm">4th (optional)</span>
-              <span className="font-body text-ember text-sm text-right">-240</span>
+              <span className="font-body text-ember text-sm text-right">&minus;240</span>
 
               <span className="font-body text-parchment/70 text-sm">Using the {c.hintLabel.toLowerCase()}</span>
-              <span className="font-body text-gold/80 text-sm text-right">-160</span>
+              <span className="font-body text-gold/80 text-sm text-right">&minus;160</span>
 
-              <span className="font-body text-parchment/70 text-sm">Each follow-up question</span>
-              <span className="font-body text-gold/80 text-sm text-right">-50</span>
+              <span className="font-body text-parchment/70 text-sm">Each interrogation probe</span>
+              <span className="font-body text-gold/80 text-sm text-right">&minus;25</span>
 
               <span className="font-body text-parchment/70 text-sm">Time penalty</span>
-              <span className="font-body text-gold/80 text-sm text-right">-3/sec (max -300)</span>
+              <span className="font-body text-gold/80 text-sm text-right">&minus;3/sec (max &minus;300)</span>
 
               <div className="col-span-2 border-t border-gold/10 my-1" />
 
@@ -216,29 +274,64 @@ export default function HowToPlayModal({ onClose }: Props) {
 
         <CelticBorder className="opacity-30" />
 
+        {/* After the Accusation */}
+        <Section title="After the Accusation">
+          <p className="font-body text-parchment/75 text-sm mb-3">
+            Once you accuse, <span className="text-gold/80 font-bold">all hidden information is revealed</span>. Strikes are computed based on the world facts and suspect claims you actually uncovered during the game.
+          </p>
+          <div className="space-y-3">
+            <DetailBlock title="Strike Dots" icon="&#x25CF;">
+              <div className="flex items-center gap-4 mt-1.5">
+                <div className="flex items-center gap-1.5">
+                  <div className="w-3 h-3 rounded-full bg-gold/70" />
+                  <span className="font-body text-gold/80 text-sm">1 strike = Suspect</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <div className="w-3 h-3 rounded-full bg-crimson shadow-[0_0_6px_rgba(139,26,26,0.5)]" />
+                  <div className="w-3 h-3 rounded-full bg-crimson shadow-[0_0_6px_rgba(139,26,26,0.5)]" />
+                  <span className="font-body text-crimson-bright text-sm">2+ = Condemned</span>
+                </div>
+              </div>
+            </DetailBlock>
+            <DetailBlock title="Study Mode" icon="&#x1F4D6;">
+              After the game ends, all timelines snap to real positions, all claim chips are fully revealed, and contradiction markers appear. Use study mode to understand what you missed.
+            </DetailBlock>
+          </div>
+        </Section>
+
+        <CelticBorder className="opacity-30" />
+
         {/* Tips */}
         <Section title="Strategy Tips">
           <div className="bg-gold/5 border border-gold/10 rounded-lg p-4">
             <ul className="space-y-2.5 font-body text-parchment/75 text-sm">
               <li className="flex items-start gap-2.5">
                 <span className="text-gold/60 mt-0.5 shrink-0">&#x2605;</span>
-                <span>Read all 6 alibis before drawing. Look for stories that seem too specific or oddly vague.</span>
+                <span>Read all alibis first. Look for suspects who mention the same locations at overlapping times.</span>
               </li>
               <li className="flex items-start gap-2.5">
                 <span className="text-gold/60 mt-0.5 shrink-0">&#x2605;</span>
-                <span>Cross-reference the map with alibis. If two suspects claim to be at the same place at the same {c.timePeriodLabel.replace(/s$/, '')}, a fact might confirm or deny that.</span>
+                <span>Cross-reference the map with alibis. Check if claimed travel routes are even possible in the time available.</span>
               </li>
               <li className="flex items-start gap-2.5">
                 <span className="text-gold/60 mt-0.5 shrink-0">&#x2605;</span>
-                <span>The {c.liarLabel} <span className="italic">always</span> has contradictions if you draw the right {c.drawNounPlural}. No strikes doesn&apos;t mean innocent.</span>
+                <span>Use <span className="text-gold/80 font-bold">route probes</span> for maximum value &mdash; they reveal a suspect&apos;s full timeline in one Favor.</span>
               </li>
               <li className="flex items-start gap-2.5">
                 <span className="text-gold/60 mt-0.5 shrink-0">&#x2605;</span>
-                <span>Questioning never reveals hard evidence. Use it to compare how suspects respond under pressure.</span>
+                <span>Spend probes on suspects who look suspicious based on {c.drawNounPlural} facts. Don&apos;t waste Favors on suspects who are clearly clean.</span>
               </li>
               <li className="flex items-start gap-2.5">
                 <span className="text-gold/60 mt-0.5 shrink-0">&#x2605;</span>
-                <span>Accuse quickly for a higher score. Time ticks away &mdash; being decisive pays off.</span>
+                <span>Don&apos;t trust blame. Suspects point fingers at each other regardless of guilt &mdash; it&apos;s deflection, not evidence.</span>
+              </li>
+              <li className="flex items-start gap-2.5">
+                <span className="text-gold/60 mt-0.5 shrink-0">&#x2605;</span>
+                <span>The {c.liarLabel} <span className="italic">always</span> has contradictions. If you see no strikes, you haven&apos;t drawn the right {c.drawNounPlural} or probed the right details yet.</span>
+              </li>
+              <li className="flex items-start gap-2.5">
+                <span className="text-gold/60 mt-0.5 shrink-0">&#x2605;</span>
+                <span>Accuse decisively. Time ticks away at &minus;3 points per second &mdash; don&apos;t over-think once you have a strong lead.</span>
               </li>
             </ul>
           </div>
@@ -315,6 +408,15 @@ function DetailBlock({ title, icon, children }: { title: string; icon: string; c
         <p className="font-cinzel text-parchment/85 text-sm font-bold">{title}</p>
         <div className="font-body text-iron/65 text-sm leading-relaxed mt-0.5">{children}</div>
       </div>
+    </div>
+  );
+}
+
+function ProbeRow({ label, desc }: { label: string; desc: string }) {
+  return (
+    <div className="flex items-start gap-2">
+      <span className="text-gold/40 text-xs mt-0.5 shrink-0">&bull;</span>
+      <p className="text-xs"><span className="text-parchment/80 font-bold">{label}</span> &mdash; <span className="text-iron/55">{desc}</span></p>
     </div>
   );
 }

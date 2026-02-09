@@ -78,19 +78,11 @@ function useSteps(): TutorialStep[] {
             <span className="text-gold font-bold"> claims</span>.
             Tap to expand their full testimony.
           </p>
-          <div className="flex items-center gap-4 mt-1">
-            <div className="flex items-center gap-1.5">
-              <div className="w-2.5 h-2.5 rounded-full bg-gold/70" />
-              <span className="font-body text-gold/70 text-xs">Suspect</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <div className="w-2.5 h-2.5 rounded-full bg-crimson" />
-              <div className="w-2.5 h-2.5 rounded-full bg-crimson" />
-              <span className="font-body text-crimson-bright/80 text-xs">Condemned</span>
-            </div>
-          </div>
+          <p className="font-body text-parchment/70 text-sm leading-relaxed">
+            Some claim details are <span className="text-gold/80 font-bold">visible upfront</span> (morning timings, locations, horn). Others show &ldquo;?&rdquo; until you <span className="text-gold/80 font-bold">interrogate</span> for specifics.
+          </p>
           <p className="font-body text-iron/55 text-sm italic leading-relaxed">
-            Strike dots appear when facts contradict their story.
+            Use the &#x2606; star to mark suspects you find suspicious.
           </p>
         </div>
       ),
@@ -115,18 +107,18 @@ function useSteps(): TutorialStep[] {
       content: (
         <div className="space-y-2.5">
           <p className="font-body text-parchment/85 text-sm leading-relaxed">
-            After drawing, tap <span className="text-gold font-bold">&ldquo;{c.interrogateLabel}&rdquo;</span> on any suspect to question them.
+            Tap <span className="text-gold font-bold">&ldquo;{c.interrogateLabel}&rdquo;</span> on any suspect &mdash; <span className="text-gold/80 font-bold">available from the start</span>, no draws needed.
           </p>
           <div className="flex items-center gap-2.5 py-1">
             <div className="flex gap-1">
-              <div className="w-3 h-3 rounded-full bg-crimson/60" />
-              <div className="w-3 h-3 rounded-full bg-crimson/60" />
-              <div className="w-3 h-3 rounded-full bg-crimson/20" />
+              {[0,1,2,3,4,5].map(i => (
+                <div key={i} className={`w-3 h-3 rounded-full ${i < 4 ? 'bg-gold/60' : 'bg-iron/20'}`} />
+              ))}
             </div>
-            <span className="font-body text-parchment/60 text-xs">3 tokens &mdash; opening defense is free, follow-ups cost 1 each</span>
+            <span className="font-body text-parchment/60 text-xs">6 Favors &mdash; opening defense is free, probes cost 1 each (&minus;25 pts)</span>
           </div>
-          <p className="font-body text-iron/55 text-sm italic leading-relaxed">
-            Questioning gives clues but never reveals hard evidence.
+          <p className="font-body text-parchment/70 text-sm leading-relaxed">
+            Each probe <span className="text-gold/80 font-bold">reveals hidden claim details</span> &mdash; exact timings, relics, scents. Suspects may blame others under pressure.
           </p>
         </div>
       ),
@@ -144,8 +136,8 @@ function useSteps(): TutorialStep[] {
             <span className="text-gold/70 text-right">-80</span>
             <span className="text-parchment/60">{c.hintLabel}</span>
             <span className="text-gold/70 text-right">-160</span>
-            <span className="text-parchment/60">Follow-up question</span>
-            <span className="text-gold/70 text-right">-50</span>
+            <span className="text-parchment/60">Each probe</span>
+            <span className="text-gold/70 text-right">-25</span>
             <span className="text-parchment/60">Time</span>
             <span className="text-gold/70 text-right">-3/sec</span>
             <span className="text-parchment/60">Wrong accusation</span>

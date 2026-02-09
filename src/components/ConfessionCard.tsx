@@ -45,6 +45,7 @@ export default function ConfessionCard({ liar, proof }: Props) {
           </p>
           <TimelineStrip
             segments={liar.claimVector.segments}
+            evidence={liarDelta?.evidence}
             showMissed
             missedSegmentIndex={missedSegmentIndex}
           />
