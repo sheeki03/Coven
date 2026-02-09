@@ -168,7 +168,20 @@ export function InterrogationProvider({ children }: { children: ReactNode }) {
 
   const openChamber = useCallback((suspect: Suspect) => {
     localDispatch({ type: 'OPEN_CHAMBER', suspect });
-  }, []);
+
+    // Prefetch defense TTS in background so it's cached when user clicks play
+    if (!voiceOff && gameState.defenseTtsCalls < MAX_DEFENSE_TTS) {
+      const cKey = localStorageKeyForOpening(gameState.seed, suspect.id, mode);
+      const cached = getCachedAnswer(cKey);
+      const { text } = generateOpeningDefense(suspect, gameState.world, gameState.seed, templates);
+      const defenseText = cached ?? text;
+      const temperament = getTemperament(gameState.seed, suspect.id);
+      const speaker = getSpeaker(suspect.name, templates.speakerMap);
+      const pace = getTtsPace(temperament, 0);
+      // Fire-and-forget — just warms the cache
+      textToSpeech({ text: defenseText, speaker, pace }).catch(() => {});
+    }
+  }, [voiceOff, gameState.defenseTtsCalls, gameState.seed, gameState.world, mode, templates]);
 
   const closeChamber = useCallback(() => {
     stopAudio();

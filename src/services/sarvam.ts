@@ -77,7 +77,7 @@ export async function textToSpeech({ text, speaker, pace = 1.0, signal }: TtsOpt
         speaker,
         model: 'bulbul:v3',
         pace,
-        speech_sample_rate: 24000,
+        speech_sample_rate: 16000,
       }),
       signal,
     });
