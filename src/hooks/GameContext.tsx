@@ -110,15 +110,16 @@ function createGameReducer(mode: GameMode, templates: import('../themes/types.js
         const { puzzle, gameState } = loadPuzzleForToday(mode, core, templates);
         currentPuzzle = puzzle;
         // No recomputeStrikes — all suspects start with 0 strikes
-        // Auto-reveal all claims for all suspects so timelines + chips display fully
+        // Partial reveal: locations visible (openingHeard), but timing + secondary claims
+        // hidden behind interrogation probes so follow-up questions are meaningful
         const autoRevealedClaims: Record<string, RevealedClaimDetail> = {};
         for (const s of gameState.suspects) {
           autoRevealedClaims[s.id] = {
-            bells: [0, 1, 2, 3, 4, 5],
-            route: true,
-            anchor: true,
-            object: true,
-            sense: true,
+            bells: [],
+            route: false,
+            anchor: false,
+            object: false,
+            sense: false,
             openingHeard: true,
           };
         }
@@ -218,7 +219,19 @@ function createGameReducer(mode: GameMode, templates: import('../themes/types.js
         const { puzzle, gameState } = loadPuzzleForToday(mode, core, templates);
         currentPuzzle = puzzle;
         // No recomputeStrikes — clean slate
-        return { ...gameState, phase: 'investigating', startTime: Date.now() };
+        // Partial reveal: same as INIT_PUZZLE
+        const resetClaims: Record<string, RevealedClaimDetail> = {};
+        for (const s of gameState.suspects) {
+          resetClaims[s.id] = {
+            bells: [],
+            route: false,
+            anchor: false,
+            object: false,
+            sense: false,
+            openingHeard: true,
+          };
+        }
+        return { ...gameState, phase: 'investigating', startTime: Date.now(), revealedClaims: resetClaims };
       }
 
       case 'SPEND_INTERROGATION_TOKEN': {

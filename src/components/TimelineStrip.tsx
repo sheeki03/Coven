@@ -36,12 +36,10 @@ function TimelineStrip({ segments, evidence = [], hintUsed, showMissed, missedSe
     }
   }
 
-  // Bell label resolver
+  // Bell label resolver — labels are universal time markers, always show when opening heard
   const getBellLabel = (b: Bell): string => {
-    if (isFullyRevealed) return bellLabels[b];
     if (!hasOpening) return '?';
-    if (revealedBells && revealedBells.includes(b)) return bellLabels[b];
-    return '?';
+    return bellLabels[b];
   };
 
   return (
