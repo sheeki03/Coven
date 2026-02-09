@@ -110,13 +110,17 @@ function createGameReducer(mode: GameMode, templates: import('../themes/types.js
         const { puzzle, gameState } = loadPuzzleForToday(mode, core, templates);
         currentPuzzle = puzzle;
         // No recomputeStrikes — all suspects start with 0 strikes
-        // Auto-reveal opening defense for all suspects so locations are visible from the start
+        // Auto-reveal all claims for all suspects so timelines + chips display fully
         const autoRevealedClaims: Record<string, RevealedClaimDetail> = {};
         for (const s of gameState.suspects) {
-          const existing = gameState.revealedClaims[s.id] ?? {
-            bells: [], route: false, anchor: false, object: false, sense: false, openingHeard: false,
+          autoRevealedClaims[s.id] = {
+            bells: [0, 1, 2, 3, 4, 5],
+            route: true,
+            anchor: true,
+            object: true,
+            sense: true,
+            openingHeard: true,
           };
-          autoRevealedClaims[s.id] = { ...existing, openingHeard: true };
         }
         return {
           ...gameState,
