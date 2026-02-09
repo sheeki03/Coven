@@ -520,7 +520,7 @@ function generateDetailAnswer(
 
 // --- Full answer text expansion (for TTS + subtitles) ---
 
-export function expandAnswerText(spec: AnswerSpec, suspect: Suspect, _world: WorldModel, seed: number, pressure: number, targetKey: string, templates?: ThemeTemplates): string {
+export function expandAnswerText(spec: AnswerSpec, suspect: Suspect, _world: WorldModel, seed: number, pressure: number, targetKey: string, templates?: ThemeTemplates, otherSuspectNames?: string[]): string {
   if (spec.chipType === 'refusal') {
     const refusals = templates?.refusals ?? {
       timid: 'Please... there are things that happened that day I dare not speak of.',
@@ -559,6 +559,29 @@ export function expandAnswerText(spec: AnswerSpec, suspect: Suspect, _world: Wor
   const words = text.split(/\s+/).length;
   if (words < bands.wordRange.min) {
     text += ' ' + pickFiller(fillerSeed, fillerBank);
+  }
+
+  // Blame-shifting and innocence protests (more likely under pressure)
+  const blameSeed = hashString(`blame:${seed}:${suspect.id}:${pressure}:${targetKey}`);
+  const blameRoll = seededFloat(blameSeed);
+  // P0: 15% innocence, 10% blame | P1: 25%, 20% | P2+: 30%, 35%
+  const innocenceThreshold = pressure === 0 ? 0.15 : pressure === 1 ? 0.25 : 0.30;
+  const blameThreshold = innocenceThreshold + (pressure === 0 ? 0.10 : pressure === 1 ? 0.20 : 0.35);
+
+  if (blameRoll < innocenceThreshold) {
+    const innocenceBank = templates?.innocenceLines ?? [
+      'I speak the truth. Every word.',
+      'I have nothing to hide.',
+    ];
+    text += ' ' + innocenceBank[Math.abs(blameSeed) % innocenceBank.length];
+  } else if (blameRoll < blameThreshold && otherSuspectNames && otherSuspectNames.length > 0) {
+    const blameBank = templates?.blameTemplates?.[spec.temperament] ?? [
+      'Perhaps you should speak with {name}.',
+    ];
+    const targetIdx = Math.abs(blameSeed + 7) % otherSuspectNames.length;
+    const blameLine = blameBank[Math.abs(blameSeed + 3) % blameBank.length]
+      .replace('{name}', otherSuspectNames[targetIdx]);
+    text += ' ' + blameLine;
   }
 
   return text;

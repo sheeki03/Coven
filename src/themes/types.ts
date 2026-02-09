@@ -63,6 +63,10 @@ export interface ThemeTemplates {
   hintPrefix: string;             // "A Law of Stone:"
   movementFactGate: string;       // "the gate to {to} stands {bells} bell(s) distant"
 
+  // Blame-shifting / innocence lines (appended to answers under pressure)
+  blameTemplates: Record<string, readonly string[]>;  // temperament → blame lines with {name}
+  innocenceLines: readonly string[];
+
   // Speaker map for TTS
   speakerMap: Record<string, string>;
 }

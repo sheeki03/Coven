@@ -512,6 +512,48 @@ const casefileTemplates: ThemeTemplates = {
   hintPrefix: 'Analyst Note:',
   movementFactGate: 'From {from}, reaching {to} requires {bells} hour{s} minimum.',
 
+  blameTemplates: {
+    timid: [
+      'I don\'t want to get anyone in trouble, but... {name} was acting off that day.',
+      'Look, I\'m not pointing fingers, but {name} couldn\'t look me in the eye.',
+      'Maybe talk to {name}? They seemed really stressed about something.',
+    ],
+    arrogant: [
+      'You\'re wasting your time with me. Run {name}\'s story through your system — it won\'t hold up.',
+      'I\'ve got nothing to hide. {name}, on the other hand? Good luck with that debrief.',
+      'Check {name}\'s access logs. My record is clean.',
+    ],
+    annoyed: [
+      'Why am I still here? Go pull {name} in — they\'re the one sweating.',
+      'This is a waste of resources. {name} is your person.',
+      'I\'ve cooperated fully. Maybe {name} should do the same.',
+    ],
+    talkative: [
+      'Okay, off the record? {name} was being super weird. Just saying.',
+      'I probably shouldn\'t mention this, but {name} left the building at a really strange time.',
+      'You didn\'t hear this from me, but {name} was on a call they clearly didn\'t want anyone hearing.',
+    ],
+    clipped: [
+      '{name}. Talk to them.',
+      'Not me. {name}.',
+      'Run {name}\'s timeline. You\'ll see.',
+    ],
+    poetic: [
+      'Everyone\'s got a story. But {name}\'s story has more holes than mine.',
+      'I\'m not the one with gaps in my timeline. That\'d be {name}.',
+      'The data doesn\'t lie. And neither do I. Can {name} say the same?',
+    ],
+  },
+
+  innocenceLines: [
+    'I\'m telling you the truth. Run it against whatever you want.',
+    'My story checks out. Every detail.',
+    'I\'ve got nothing to hide. Zero.',
+    'You can polygraph me right now. I\'m clean.',
+    'I didn\'t do anything wrong. That\'s just the facts.',
+    'Look at the evidence. It\'ll clear me.',
+  ],
+
   speakerMap: {
     'Marcus Cole': 'amit',
     'Elena Rivera': 'shreya',

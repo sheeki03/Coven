@@ -525,6 +525,48 @@ const ledgerTemplates: ThemeTemplates = {
   movementFactGate: 'From {from}, the gate to {to} stands {bells} bell{s} distant.',
 
   // ─── Speaker map for TTS ──────────────────────────────────
+  blameTemplates: {
+    timid: [
+      'I... perhaps you should speak with {name}. They seemed uneasy that day.',
+      'I dare not accuse, but {name} avoided my gaze when we crossed paths.',
+      'Forgive me, but {name} was not where they claimed. I am sure of it.',
+    ],
+    arrogant: [
+      'If an oath is broken here, look to {name} — not to me.',
+      'I have spoken my truth. {name}, however, has much to explain.',
+      'You waste the Council\'s time with me. {name} is the one you want.',
+    ],
+    annoyed: [
+      'Why press me? Go hound {name} — they have far more to answer for.',
+      'I tire of this. Ask {name} where they truly were.',
+      'Enough. {name} is the one shifting in their seat, not I.',
+    ],
+    talkative: [
+      'You know, {name} was acting strangely that day. I shouldn\'t say more, but... well.',
+      'Between us? I saw {name} near the crossing at an odd hour. Make of that what you will.',
+      'I would never point fingers, but {name} left in quite the hurry, didn\'t they?',
+    ],
+    clipped: [
+      '{name}. Ask them.',
+      'Not me. {name}.',
+      'Look to {name}. I\'ve said my piece.',
+    ],
+    poetic: [
+      'The shadow does not fall upon me, but perhaps it rests upon {name}.',
+      'Truth rings clear as a bell — and {name}\'s testimony rings hollow.',
+      'If there is a serpent among us, its trail leads to {name}, not to my door.',
+    ],
+  },
+
+  innocenceLines: [
+    'My oath stands before the Elder Council. I do not waver.',
+    'I swear upon the runes — every word I have spoken is true.',
+    'The stones themselves would vouch for me if they had tongues.',
+    'I have nothing to hide. My ledger is clean.',
+    'Test me as you wish. My account will not change.',
+    'I am no oathbreaker. The truth is my shield.',
+  ],
+
   speakerMap: {
     Mordecai: 'kabir',
     Isolde: 'simran',

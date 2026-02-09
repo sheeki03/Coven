@@ -115,11 +115,11 @@ function createGameReducer(mode: GameMode, templates: import('../themes/types.js
         const autoRevealedClaims: Record<string, RevealedClaimDetail> = {};
         for (const s of gameState.suspects) {
           autoRevealedClaims[s.id] = {
-            bells: [],
+            bells: [0, 1, 2],    // morning half free, afternoon needs probing
             route: false,
-            anchor: false,
-            object: false,
-            sense: false,
+            anchor: true,        // horn claim visible
+            object: false,       // relic needs object_probe
+            sense: false,        // scent needs sense_probe
             openingHeard: true,
           };
         }
@@ -223,11 +223,11 @@ function createGameReducer(mode: GameMode, templates: import('../themes/types.js
         const resetClaims: Record<string, RevealedClaimDetail> = {};
         for (const s of gameState.suspects) {
           resetClaims[s.id] = {
-            bells: [],
+            bells: [0, 1, 2],    // morning half free, afternoon needs probing
             route: false,
-            anchor: false,
-            object: false,
-            sense: false,
+            anchor: true,        // horn claim visible
+            object: false,       // relic needs object_probe
+            sense: false,        // scent needs sense_probe
             openingHeard: true,
           };
         }

@@ -510,6 +510,48 @@ const gaslightTemplates: ThemeTemplates = {
   hintPrefix: 'Inspector\'s Note:',
   movementFactGate: 'From {from}, the route to {to} requires {bells} hour{s} at minimum.',
 
+  blameTemplates: {
+    timid: [
+      'I hesitate to say it, but {name} was not entirely forthcoming, I believe.',
+      'Please, I would rather not... but {name} seemed most agitated that evening.',
+      'I beg your discretion, but {name}\'s account does not quite hold together.',
+    ],
+    arrogant: [
+      'I suggest you direct your enquiries toward {name}. My reputation speaks for itself.',
+      'One need only observe {name}\'s demeanour to know who the deceiver is.',
+      'You insult my standing. {name} is the one with something to conceal.',
+    ],
+    annoyed: [
+      'For heaven\'s sake, go question {name}. I have been nothing but cooperative.',
+      'This is tiresome. {name} is the one who cannot keep their story straight.',
+      'I have appointments to keep. Speak to {name} — they were the nervous one.',
+    ],
+    talkative: [
+      'Well, since you ask — I did notice {name} acting rather peculiarly that evening.',
+      'I oughtn\'t gossip, but {name} was seen near the conservatory at a most unusual hour.',
+      'Between ourselves, {name} seemed positively rattled. One does wonder why.',
+    ],
+    clipped: [
+      '{name}. Question them.',
+      'I am not your culprit. {name} is.',
+      '{name} knows more than they let on.',
+    ],
+    poetic: [
+      'The lamplight reveals all shadows in time — and {name}\'s shadow is darkest.',
+      'If deception has a face tonight, it wears the countenance of {name}.',
+      'I am an open book, Inspector. {name}, however, is a locked diary.',
+    ],
+  },
+
+  innocenceLines: [
+    'I give you my word as a gentleman — I have spoken nothing but the truth.',
+    'My conscience is clear. I have deceived no one.',
+    'Upon my honour, every detail I have given is accurate.',
+    'I am not in the habit of lying, Inspector.',
+    'You may verify every word. I stand by my account entirely.',
+    'I have nothing to gain from deception. The truth serves me well enough.',
+  ],
+
   speakerMap: {
     'Inspector Graves': 'ashutosh',
     'Lady Ashworth': 'amelia',

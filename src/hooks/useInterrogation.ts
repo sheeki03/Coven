@@ -211,7 +211,8 @@ export function InterrogationProvider({ children }: { children: ReactNode }) {
     const cached = getCachedAnswer(cKey);
 
     const spec = generateAnswerSpec(suspect, cardType, pressure, gameState.world, gameState.seed, slotIndex != null && slotIndex >= 0 ? slotIndex : undefined, templates);
-    const templateText = cached ?? expandAnswerText(spec, suspect, gameState.world, gameState.seed, pressure, targetKey, templates);
+    const otherNames = gameState.suspects.filter(s => s.id !== suspect.id).map(s => s.name);
+    const templateText = cached ?? expandAnswerText(spec, suspect, gameState.world, gameState.seed, pressure, targetKey, templates, otherNames);
 
     // Build chip
     const chip: AnswerChip = {
@@ -245,7 +246,7 @@ export function InterrogationProvider({ children }: { children: ReactNode }) {
     const temperament = getTemperament(gameState.seed, suspect.id);
     playTts(templateText, suspect.name, temperament, pressure, 'interrogation');
 
-  }, [gameState.seed, gameState.world, gameDispatch, suspectPressure, playTts, mode, templates]);
+  }, [gameState.seed, gameState.world, gameState.suspects, gameDispatch, suspectPressure, playTts, mode, templates]);
 
   const confirmTarget = useCallback((slotIndex: number) => {
     const suspect = interrogation.activeSuspect;
