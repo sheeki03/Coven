@@ -22,7 +22,7 @@ export default function RitualMeter({ score, phase }: Props) {
         <div className={`w-2.5 h-2.5 rounded-full ${rank === 'clean' ? 'bg-gold' : rank === 'mercy' ? 'bg-ember' : 'bg-crimson'}`} />
         <span className={config.color}>{config.label}</span>
       </div>
-      <HelpTip text="Your verdict rank — wrong accusations lower it. Clean = perfect, Mercy = some mistakes, Fallen = too many errors." />
+      <HelpTip position="bottom" align="right" text="Your verdict rank — wrong accusations lower it. Clean = perfect, Mercy = some mistakes, Fallen = too many errors." />
     </div>
   );
 }

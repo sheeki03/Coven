@@ -2,9 +2,10 @@ interface Props {
   text: string;
   size?: 'sm' | 'md';
   align?: 'center' | 'right';
+  position?: 'top' | 'bottom';
 }
 
-export default function HelpTip({ text, size = 'sm', align = 'center' }: Props) {
+export default function HelpTip({ text, size = 'sm', align = 'center', position = 'top' }: Props) {
   const dim = size === 'md' ? 'w-7 h-7 text-sm' : 'w-6 h-6 text-xs';
 
   const tooltipPos = align === 'right'
@@ -14,6 +15,8 @@ export default function HelpTip({ text, size = 'sm', align = 'center' }: Props) 
   const caretPos = align === 'right'
     ? 'right-3'
     : 'left-1/2 -translate-x-1/2';
+
+  const isBottom = position === 'bottom';
 
   return (
     <span className="relative group/tip inline-flex ml-1.5 shrink-0">
@@ -32,12 +35,23 @@ export default function HelpTip({ text, size = 'sm', align = 'center' }: Props) 
 
       {/* Tooltip — instant appear on hover */}
       <span
-        className={`absolute bottom-full ${tooltipPos} mb-2.5
+        className={`absolute ${isBottom ? 'top-full mt-2.5' : 'bottom-full mb-2.5'} ${tooltipPos}
           pointer-events-none z-50
-          opacity-0 translate-y-1 scale-95
+          opacity-0 ${isBottom ? '-translate-y-1' : 'translate-y-1'} scale-95
           group-hover/tip:opacity-100 group-hover/tip:translate-y-0 group-hover/tip:scale-100
           transition-all duration-150 ease-out`}
       >
+        {/* Caret arrow — on top when tooltip is below */}
+        {isBottom && (
+          <span
+            className={`absolute bottom-full ${caretPos} -mb-px
+              w-0 h-0
+              border-l-[7px] border-l-transparent
+              border-r-[7px] border-r-transparent
+              border-b-[7px] border-b-gold/25`}
+          />
+        )}
+
         {/* Tooltip body */}
         <span
           className="block w-56 px-3.5 py-3 rounded-lg
@@ -49,14 +63,16 @@ export default function HelpTip({ text, size = 'sm', align = 'center' }: Props) 
           {text}
         </span>
 
-        {/* Caret arrow */}
-        <span
-          className={`absolute top-full ${caretPos} -mt-px
-            w-0 h-0
-            border-l-[7px] border-l-transparent
-            border-r-[7px] border-r-transparent
-            border-t-[7px] border-t-gold/25`}
-        />
+        {/* Caret arrow — on bottom when tooltip is above */}
+        {!isBottom && (
+          <span
+            className={`absolute top-full ${caretPos} -mt-px
+              w-0 h-0
+              border-l-[7px] border-l-transparent
+              border-r-[7px] border-r-transparent
+              border-t-[7px] border-t-gold/25`}
+          />
+        )}
       </span>
     </span>
   );

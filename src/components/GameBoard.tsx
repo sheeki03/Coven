@@ -27,6 +27,7 @@ import DailyObjectives from './DailyObjectives.js';
 import ScribeLog from './ScribeLog.js';
 import DebugOverlay from './DebugOverlay.js';
 import CaseNotes from './CaseNotes.js';
+import TutorialWalkthrough from './TutorialWalkthrough.js';
 import { InterrogationProvider } from '../hooks/useInterrogation.js';
 import InterrogationChamber from './InterrogationChamber.js';
 
@@ -39,8 +40,13 @@ export default function GameBoard() {
 
   // First visit check (mode-scoped)
   const hasPlayedKey = `coven:hasPlayed:${mode}`;
+  const tutorialDismissedKey = `coven:tutorialDismissed:${mode}`;
   const hasPlayed = typeof window !== 'undefined' && localStorage.getItem(hasPlayedKey);
+  const tutorialDismissed = typeof window !== 'undefined' && localStorage.getItem(tutorialDismissedKey);
   const isDemo = typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('demo');
+
+  // Auto-show tutorial walkthrough for first-time users
+  const [showTutorial, setShowTutorial] = useState(() => !hasPlayed && !tutorialDismissed);
 
   // Mark as played on first visit once game loads
   useEffect(() => {
@@ -168,6 +174,17 @@ export default function GameBoard() {
 
         {/* Modals */}
         {showHowToPlay && <HowToPlayModal onClose={() => setShowHowToPlay(false)} />}
+
+        {/* Tutorial walkthrough — auto-shows on first visit */}
+        {showTutorial && state.phase === 'investigating' && (
+          <TutorialWalkthrough
+            onClose={() => setShowTutorial(false)}
+            onDismissForever={() => {
+              setShowTutorial(false);
+              localStorage.setItem(tutorialDismissedKey, '1');
+            }}
+          />
+        )}
 
         {/* Final Oath ceremony */}
         {pendingAccuse && (
