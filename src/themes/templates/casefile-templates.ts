@@ -27,7 +27,7 @@ const casefileTemplates: ThemeTemplates = {
   } satisfies Record<Bell, string>,
 
   bellLabelsShort: {
-    0: '0800', 1: '0900', 2: '1000', 3: '1100', 4: '1200', 5: '1300',
+    0: '8 AM', 1: '9 AM', 2: '10 AM', 3: '11 AM', 4: '12 PM', 5: '1 PM',
   } satisfies Record<Bell, string>,
 
   contradictionLabels: {
