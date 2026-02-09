@@ -50,12 +50,12 @@ function TimelineStrip({ segments, evidence = [], hintUsed, showMissed, missedSe
       <div className="flex items-center px-0.5 mb-1">
         <div className="flex justify-between flex-1">
           {([0, 1, 2, 3, 4, 5] as Bell[]).map(b => (
-            <span key={b} className={`text-sm ${theme.visuals.headingFontClass} text-iron/55 w-8 text-center`}>
+            <span key={b} className={`text-xs ${theme.visuals.headingFontClass} text-iron/55 flex-1 text-center`}>
               {getBellLabel(b)}
             </span>
           ))}
         </div>
-        <HelpTip align="right" text="Timeline \u2014 colored bars show where this suspect claims they were at each hour" />
+        <HelpTip align="right" text={"Timeline \u2014 colored bars show where this suspect claims they were at each hour"} />
       </div>
 
       {/* Timeline bar */}

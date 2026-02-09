@@ -27,7 +27,7 @@ const gaslightTemplates: ThemeTemplates = {
   } satisfies Record<Bell, string>,
 
   bellLabelsShort: {
-    0: '8a', 1: '9a', 2: '10a', 3: '11a', 4: '12p', 5: '1p',
+    0: '8 AM', 1: '9 AM', 2: '10 AM', 3: '11 AM', 4: '12 PM', 5: '1 PM',
   } satisfies Record<Bell, string>,
 
   contradictionLabels: {

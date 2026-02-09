@@ -41,7 +41,7 @@ const ledgerTemplates: ThemeTemplates = {
   } satisfies Record<Bell, string>,
 
   bellLabelsShort: {
-    0: '8a', 1: '9a', 2: '10a', 3: '11a', 4: '12p', 5: '1p',
+    0: 'I', 1: 'II', 2: 'III', 3: 'IV', 4: 'V', 5: 'VI',
   } satisfies Record<Bell, string>,
 
   contradictionLabels: {
